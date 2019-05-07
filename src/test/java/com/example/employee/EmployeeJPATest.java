@@ -31,7 +31,7 @@ public class EmployeeJPATest {
     public void setUp() throws Exception {
         //本地启动mysql，创建employee_db数据库
         Flyway flyway = new Flyway();
-        flyway.setDataSource("jdbc:mysql://localhost:3306/employee_db","root","root");
+        flyway.setDataSource("jdbc:mysql://localhost:3306/employee_db","root","pass");
         flyway.clean();
         flyway.migrate();
     }
@@ -45,7 +45,7 @@ public class EmployeeJPATest {
         //1.查询名字是小红的employee
         Employee expectedEmployee = new Employee(1,"xiaohong",19,"female",1,7000);
 
-        String actualName = null;
+        String actualName = employeeRepository.findFirstByName("xiaohong").getName();
         assertThat(actualName).isEqualTo(expectedEmployee.getName());
     }
 
@@ -53,7 +53,7 @@ public class EmployeeJPATest {
     public void should_return_employee_given_character_in_name_and_salary_large_than() throws Exception {
         //2.找出Employee表中第一个姓名包含`n`字符的雇员所有个人信息
         Employee expectedEmployee = new Employee(1,"xiaohong",19,"female",1,7000);
-        String actualName = null;
+//        String actualName = employeeRepository.findFirstByNameLike("n").getName();
         assertThat(actualName).isEqualTo(expectedEmployee.getName());
     }
 
